@@ -1,0 +1,252 @@
+function initDadosTabela() {
+	if (!localStorage.getItem("dadosTabelaOcorrencias")) {
+	  const dadosTabela = {
+		"1": { museu: "Museu Coleção Berardo", data: "15/04/2025", estado: "Por concluir" },
+		"2": { museu: "Museu do Oriente", data: "16/04/2025", estado: "Por concluir" },
+		"3": { museu: "Museu Nacional do Azulejo", data: "17/04/2025", estado: "Por analisar" },
+		"4": { museu: "Museu Nacional de Arqueologia", data: "18/04/2025", estado: "Por analisar" },
+		"5": { museu: "Museu Nacional de Arte Antiga", data: "19/04/2025", estado: "Por analisar" },
+		"6": { museu: "Museu da Eletricidade (MAAT)", data: "21/04/2025", estado: "Por analisar" },
+		"7": { museu: "Museu Bordalo Pinheiro", data: "22/04/2025", estado: "Por analisar" },
+		"8": { museu: "Museu da Marioneta", data: "23/04/2025", estado: "Por analisar" },
+		"9": { museu: "Museu da Carris", data: "24/04/2025", estado: "Por analisar" },
+		"10": { museu: "Museu Nacional de História Natural", data: "25/04/2025", estado: "Por analisar" }
+	  };
+	  localStorage.setItem("dadosTabelaOcorrencias", JSON.stringify(dadosTabela));
+	  console.log("Dados tabela inicializados.");
+	} else {
+	  console.log("Dados tabela já existem.");
+	}
+  }
+  
+  function renderizarTabela() {
+	const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
+	const tbody = document.querySelector("#ocorrencias tbody");
+	tbody.innerHTML = "";
+  
+	// Filtra ocorrências que não estão concluídas
+	const ocorrenciasAtivas = Object.entries(dadosTabela).filter(([id, ocorr]) => ocorr.estado !== "Concluída");
+  
+	if (ocorrenciasAtivas.length === 0) {
+	  tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Sem dados disponíveis</td></tr>`;
+	  return;
+	}
+  
+	for (const [id, ocorr] of ocorrenciasAtivas) {
+	  const tr = document.createElement("tr");
+	  tr.setAttribute("data-id", id);
+	  tr.innerHTML = `
+		<td>${ocorr.museu}</td>
+		<td>${ocorr.data}</td>
+		<td>${ocorr.estado}</td>
+		<td>
+		  <button onclick="verOcorrencia('${id}')" class="btn btn-arrow">
+			<i class="fa fa-arrow-right"></i>
+		  </button>
+		</td>
+	  `;
+	  tbody.appendChild(tr);
+	}
+  
+	// Se já existir DataTable, destrói antes
+	if ($.fn.DataTable.isDataTable('#ocorrencias')) {
+	  $('#ocorrencias').DataTable().clear().destroy();
+	}
+  
+	// Inicializa o DataTable **logo depois** de atualizar o DOM
+	// Usar setTimeout de 0 é suficiente para garantir que o DOM atualizou
+	setTimeout(() => {
+	  $('#ocorrencias').DataTable({
+		paging: true,
+		searching: true,
+		ordering: true,
+		pageLength: 5,
+		language: {
+		  decimal: ",",
+		  emptyTable: "Sem dados disponíveis na tabela",
+		  info: "A mostrar _START_ a _END_ de _TOTAL_ entradas",
+		  infoEmpty: "A mostrar 0 a 0 de 0 entradas",
+		  infoFiltered: "(filtrado de _MAX_ entradas totais)",
+		  lengthMenu: "Mostrar _MENU_ entradas",
+		  loadingRecords: "A carregar...",
+		  processing: "A processar...",
+		  search: "Procurar:",
+		  zeroRecords: "Não foram encontrados resultados",
+		  paginate: {
+			first: "Primeiro",
+			last: "Último",
+			next: "Seguinte",
+			previous: "Anterior"
+		  },
+		  aria: {
+			sortAscending: ": ativar para ordenar a coluna em ordem crescente",
+			sortDescending: ": ativar para ordenar a coluna em ordem decrescente"
+		  }
+		}
+	  });
+	}, 0);
+  }
+  
+  window.onload = () => {
+	initDadosTabela();
+	renderizarTabela();
+  };
+	  
+	  // Dados fictícios por id
+	  const dadosIniciais = {
+		1: {
+			googleUserId:"1",
+			titulo: "Queda de visitante nas escadas",
+			tipo: "acidente",
+			morada: "Museu Coleção Berardo - CCB, Lisboa",
+			descricao: "Visitante escorregou nas escadas internas da ala sul.",
+			relatorio: "",
+			comentarios: "Área sinalizada temporariamente com aviso de piso molhado.",
+			anexo: "talha.jpg"
+		},
+		2: {
+			googleUserId:"2",
+			titulo: "Alarme de incêndio disparado indevidamente",
+			tipo: "falha técnica",
+			morada: "Museu do Oriente - Doca de Alcântara, Lisboa",
+			descricao: "Alarme disparado sem presença de fumo ou fogo.",
+			relatorio: "",
+			comentarios: "Revisão geral do sistema agendada."
+		},
+		3: {
+			googleUserId:"3",
+			titulo: "Pane no sistema de climatização",
+			tipo: "falha técnica",
+			morada: "Museu Nacional do Azulejo - Lisboa",
+			descricao: "Temperatura instável na sala de conservação.",
+			relatorio: "",
+			comentarios: "Condições de preservação afetadas temporariamente."
+		},
+		4: {
+			googleUserId:"4",
+			titulo: "Fissura em parede expositiva",
+			tipo: "danos",
+			morada: "Museu Nacional de Arqueologia - Praça do Império, Lisboa",
+			descricao: "Fissura detetada na parede da sala de arte romana.",
+			relatorio: "",
+			comentarios: "Exposição deslocada temporariamente."
+		},
+		5: {
+			googleUserId:"5",
+			titulo: "Furto de peça decorativa",
+			tipo: "furto",
+			morada: "Museu Nacional de Arte Antiga - Rua das Janelas Verdes, Lisboa",
+			descricao: "Desaparecimento de pequeno busto em exposição temporária.",
+			relatorio: "",
+			comentarios: "Segurança reforçada nas salas centrais."
+		},
+		6: {
+			googleUserId:"6",
+			titulo: "Infiltração no teto da galeria principal",
+			tipo: "danos",
+			morada: "Museu da Eletricidade (MAAT) - Avenida Brasília, Lisboa",
+			descricao: "Água pingando após chuvas intensas.",
+			relatorio: "",
+			comentarios: "Possível falha no isolamento da cobertura."
+		},
+		7: {
+			googleUserId:"7",
+			titulo: "Vandalismo em exposição exterior",
+			tipo: "vandalismo",
+			morada: "Museu Bordalo Pinheiro - Campo Grande, Lisboa",
+			descricao: "Pintura em spray numa escultura do jardim.",
+			relatorio: "",
+			comentarios: "Segurança vai reforçar ronda noturna."
+		},
+		8: {
+			googleUserId:"8",
+			titulo: "Problema técnico com iluminação cénica",
+			tipo: "falha técnica",
+			morada: "Museu da Marioneta - Convento das Bernardas, Lisboa",
+			descricao: "Luzes intermitentes na sala de exposições temporárias.",
+			relatorio: "",
+			comentarios: "Equipamento já encomendado."
+		},
+		9: {
+			googleUserId:"9",
+			titulo: "Curto-circuito em painel interativo",
+			tipo: "falha técnica",
+			morada: "Museu da Carris - Alcântara, Lisboa",
+			descricao: "Painel informativo digital deixou de funcionar.",
+			relatorio: "",
+			comentarios: "Visitantes redirecionados para alternativa impressa."
+		},
+		10: {
+			googleUserId:"10",
+			titulo: "Desprendimento de placa no átrio",
+			tipo: "danos",
+			morada: "Museu Nacional de História Natural - Rua da Escola Politécnica, Lisboa",
+			descricao: "Placa decorativa caiu da parede na entrada.",
+			relatorio: "",
+			comentarios: "Relatório fotográfico anexado à ocorrência."
+		}
+		};
+  
+	  // Cria localStorage se ainda nao tiver
+	  if (!localStorage.getItem("dadosOcorrencias")) {
+		localStorage.setItem("dadosOcorrencias", JSON.stringify(dadosIniciais));
+	  }
+  
+	  function verOcorrencia(id) {
+	  alert("Ocorrência selecionada com id: " + id);
+	  
+	  // Agora vamos sempre buscar do localStorage
+	  let dadosOcorrencias = JSON.parse(localStorage.getItem("dadosOcorrencias")) || {};
+  
+	  const ocorrencia = dadosOcorrencias[id];
+  
+	  if (ocorrencia) {
+		localStorage.setItem("ocorrenciaSelecionada", JSON.stringify(ocorrencia));
+		localStorage.setItem("ocorrenciaIdSelecionada", id);
+		window.location.href = "forms-OpR.html";
+	  } else {
+		alert("Ocorrência não encontrada.");
+	  }
+	}
+  
+	  const dadosArray = Object.entries(dadosIniciais).map(([key, val]) => ({
+		id: key,
+		...val
+	  }));
+
+	  window.addEventListener('DOMContentLoaded', () => {
+		const table = document.querySelector('#ocorrencias'); // Ou o ID real da tua tabela
+		if (table) {
+		  const rows = table.querySelectorAll('tbody tr').length;
+		  localStorage.setItem('porConcluir', rows);
+		}
+	  });
+
+		  document.addEventListener('DOMContentLoaded', () => {
+			  const userData = JSON.parse(localStorage.getItem('googleUser'));
+			  if (userData) {
+			  const nome = userData.nome;
+			  const email = userData.email;
+			  const foto = userData.foto;
+  
+			  if (document.getElementById('userFoto')) document.getElementById('userFoto').src = foto;
+			  if (document.getElementById('userFotoBig')) document.getElementById('userFotoBig').src = foto;
+			  if (document.getElementById('userNome')) document.getElementById('userNome').textContent = nome;
+			  if (document.getElementById('userNomeBig')) document.getElementById('userNomeBig').textContent = nome;
+			  if (document.getElementById('userEmail')) document.getElementById('userEmail').textContent = email;
+			  }
+		  });
+  
+		  function logoutGoogle() {
+			  localStorage.removeItem('googleUser');
+			  window.location.href = 'login.html';
+		  }
+  
+		  // Simulação de login Google (modo manual para teste)
+		  if (!localStorage.getItem("googleUser")) {
+			  localStorage.setItem("googleUser", JSON.stringify({
+			  nome: "Inês Martins",
+			  email: "inesn.martins14@gmail.com",
+			  foto: "https://i.pravatar.cc/150?img=5"
+			  }));
+		  }

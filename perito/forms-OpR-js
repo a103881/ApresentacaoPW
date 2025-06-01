@@ -1,0 +1,179 @@
+window.addEventListener("DOMContentLoaded", () => {
+        const dados = localStorage.getItem("ocorrenciaSelecionada");
+      
+        if (dados) {
+          const ocorrencia = JSON.parse(dados);
+      
+          // Preenche os campos do formulário
+          document.getElementById("titulo").value = ocorrencia.titulo || "";
+          document.getElementById("tipo").value = ocorrencia.tipo || "";
+          document.getElementById("morada").value = ocorrencia.morada || "";
+          document.getElementById("descricao").value = ocorrencia.descricao || "";
+          document.getElementById("relatorio").value = ocorrencia.relatorio || "";
+          document.getElementById("comentarios").value = ocorrencia.comentarios || "";
+          document.getElementById("materiais").value = ocorrencia.materiais || "";
+
+          const previewDiv = document.getElementById("previewAnexo");
+            if (ocorrencia.anexo) {
+              const imagePath = `assets/${ocorrencia.anexo}`; // caminho da imagem no servidor
+              previewDiv.innerHTML = `<img src="${imagePath}" alt="Anexo" style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">`;
+            } else {
+              previewDiv.innerHTML = '<span class="text-muted">Sem anexo</span>';
+            }
+
+      
+          // Pega o ID da ocorrência que foi guardado
+          const id = localStorage.getItem("ocorrenciaIdSelecionada");
+      
+          // Adiciona o listener ao campo "relatorio"
+          document.getElementById("relatorio").addEventListener("input", function () {
+            // Atualiza apenas o campo relatorio na ocorrência
+            ocorrencia.relatorio = this.value;
+      
+            // Atualiza no localStorage
+            localStorage.setItem("ocorrenciaSelecionada", JSON.stringify(ocorrencia));
+      
+            // Atualiza o objeto global de todas as ocorrências
+            if (id) {
+              let dadosOcorrencias = JSON.parse(localStorage.getItem("dadosOcorrencias")) || {};
+              dadosOcorrencias[id] = ocorrencia;
+              localStorage.setItem("dadosOcorrencias", JSON.stringify(dadosOcorrencias));
+            }
+          });
+        }
+      });
+ 
+      function mostrarMensagem(status) {
+        const mensagemDiv = document.getElementById("mensagem");
+    
+        if (status === "confirmado") {
+          mensagemDiv.textContent = "Ocorrência confirmada com sucesso!";
+          mensagemDiv.className = "alert alert-success mt-3";
+        }
+    
+        // Mostrar a mensagem
+        mensagemDiv.classList.remove("d-none");
+    
+        // Esconder após 3 segundos
+        setTimeout(() => {
+          mensagemDiv.classList.add("d-none");
+        }, 3000);
+      }
+
+      function confirmarOcorrencia() {
+        const titulo = document.getElementById("titulo").value || "Sem título";
+        const tipo = document.getElementById("tipo").value || "";
+        const morada = document.getElementById("morada").value || "";
+        const descricao = document.getElementById("descricao").value || "";
+        const relatorio = document.getElementById("relatorio").value || "";
+        const comentarios = document.getElementById("comentarios").value || "";
+        const materiais = document.getElementById("materiais").value || "";
+
+        const dataAtual = new Date().toLocaleDateString("pt-PT");
+
+        // O id da ocorrência a confirmar deve estar guardado no localStorage (quando carregas no botão "ver" da tabela)
+        const id = JSON.parse(localStorage.getItem("ocorrenciaIdSelecionada"));
+
+          if (!id) {
+              alert("Erro: Nenhuma ocorrência selecionada.");
+              return;
+          }
+
+          let dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
+
+          // Obtem a ocorrência ativa
+          let ocorrenciaAtiva = dadosTabela[id];
+          if (!ocorrenciaAtiva) {
+              alert("Erro: Ocorrência não encontrada na lista ativa.");
+              return;
+          }
+
+          // Remove a ocorrência da lista ativa (podes também só mudar o estado para "Concluída" se preferires)
+          delete dadosTabela[id];
+
+          // Atualiza o localStorage da lista ativa
+          localStorage.setItem("dadosTabelaOcorrencias", JSON.stringify(dadosTabela));
+
+      const novaOcorrencia = {
+        id: crypto.randomUUID(),
+        titulo,
+        data: dataAtual,
+        tipo,
+        morada,
+        descricao,
+        relatorio,
+        comentarios,
+        materiais
+      };
+
+      let historico = JSON.parse(localStorage.getItem("historicoOcorrencias")) || [];
+
+      historico.push(novaOcorrencia);
+
+      historico = historico.map((item, index) => ({
+        id: index, 
+        ...item
+      }));
+
+      localStorage.setItem("historicoOcorrencias", JSON.stringify(historico));
+
+      mostrarMensagem("confirmado");
+
+      window.location.href = "datatables-OR.html";
+    }
+
+      function fecharOcorrencia() {
+      const id = localStorage.getItem("ocorrenciaIdSelecionada");
+      if (!id) {
+        alert("Nenhuma ocorrência selecionada.");
+        return;
+      }
+
+      const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
+
+      if (dadosTabela[id]) {
+        dadosTabela[id].estado = "Por concluir";
+        localStorage.setItem("dadosTabelaOcorrencias", JSON.stringify(dadosTabela));
+        alert("Estado atualizado para 'Por concluir'.");
+      } else {
+        alert("Ocorrência não encontrada na tabela.");
+      }
+
+      // Redireciona para a página da tabela
+      window.location.href = "datatables-OpR.html";
+    }
+
+    // Inicializa e renderiza tabela ao carregar
+    window.onload = () => {
+      initDadosTabela();
+      renderizarTabela();
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+      const userData = JSON.parse(localStorage.getItem('googleUser'));
+      if (userData) {
+        const nome = userData.nome;
+        const email = userData.email;
+        const foto = userData.foto;
+  
+        if (document.getElementById('userFoto')) document.getElementById('userFoto').src = foto;
+        if (document.getElementById('userFotoBig')) document.getElementById('userFotoBig').src = foto;
+        if (document.getElementById('userNome')) document.getElementById('userNome').textContent = nome;
+        if (document.getElementById('userNomeBig')) document.getElementById('userNomeBig').textContent = nome;
+        if (document.getElementById('userEmail')) document.getElementById('userEmail').textContent = email;
+      }
+    });
+  
+    function logoutGoogle() {
+      localStorage.removeItem('googleUser');
+      window.location.href = 'login.html';
+    }
+  
+    // Simulação de login Google (modo manual para teste)
+    if (!localStorage.getItem("googleUser")) {
+      localStorage.setItem("googleUser", JSON.stringify({
+        nome: "Inês Martins",
+        email: "inesn.martins14@gmail.com",
+        foto: "https://i.pravatar.cc/150?img=5"
+      }));
+    }

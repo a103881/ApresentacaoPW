@@ -1,0 +1,49 @@
+window.addEventListener("DOMContentLoaded", () => {
+        const ocorrenciaSelecionadaStr = localStorage.getItem("ocorrenciaSelecionada");
+          if (!ocorrenciaSelecionadaStr) return;
+    
+        const dados = JSON.parse(ocorrenciaSelecionadaStr);
+    
+        document.getElementById("titulo").value = dados.titulo || "";
+        document.getElementById("tipo").value = dados.tipo || "";
+        document.getElementById("morada").value = dados.morada || "";
+        document.getElementById("descricao").value = dados.descricao || "";
+        document.getElementById("relatorio").value = dados.relatorio || "";
+        document.getElementById("comentarios").value = dados.comentarios || "";
+    
+        if (dados.anexo) {
+          const fileInput = document.getElementById("exampleFormControlFile1");
+          const label = document.createElement("div");
+          label.innerHTML = `<small class="text-muted">Ficheiro: ${dados.anexo}</small>`;
+          fileInput.insertAdjacentElement("afterend", label);
+        }
+      });
+ 
+      document.addEventListener('DOMContentLoaded', () => {
+      const userData = JSON.parse(localStorage.getItem('googleUser'));
+      if (userData) {
+        const nome = userData.nome;
+        const email = userData.email;
+        const foto = userData.foto;
+  
+        if (document.getElementById('userFoto')) document.getElementById('userFoto').src = foto;
+        if (document.getElementById('userFotoBig')) document.getElementById('userFotoBig').src = foto;
+        if (document.getElementById('userNome')) document.getElementById('userNome').textContent = nome;
+        if (document.getElementById('userNomeBig')) document.getElementById('userNomeBig').textContent = nome;
+        if (document.getElementById('userEmail')) document.getElementById('userEmail').textContent = email;
+      }
+    });
+  
+    function logoutGoogle() {
+      localStorage.removeItem('googleUser');
+      window.location.href = 'login.html';
+    }
+  
+    // Simulação de login Google (modo manual para teste)
+    if (!localStorage.getItem("googleUser")) {
+      localStorage.setItem("googleUser", JSON.stringify({
+        nome: "Inês Martins",
+        email: "inesn.martins14@gmail.com",
+        foto: "https://i.pravatar.cc/150?img=5"
+      }));
+    }

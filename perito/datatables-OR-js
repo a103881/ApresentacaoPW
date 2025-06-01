@@ -1,0 +1,108 @@
+$(document).ready(function () {
+		const historico = JSON.parse(localStorage.getItem("historicoOcorrencias")) || [];
+
+		function verOcorrencia(id) {
+			const historico = JSON.parse(localStorage.getItem("historicoOcorrencias")) || [];
+			const ocorrencia = historico.find(item => item.id == id);
+
+			if (ocorrencia) {
+				localStorage.setItem("ocorrenciaSelecionada", JSON.stringify(ocorrencia));
+				window.location.href = "forms-OR.html";  // Ou o nome correto do ficheiro do formulário
+			} else {
+				alert("Ocorrência não encontrada.");
+			}
+		}
+
+
+		const tabela = $('#ocorrencias').DataTable({
+			language: {
+				decimal: ",",
+				emptyTable: "Sem dados disponíveis na tabela",
+				info: "A mostrar _START_ a _END_ de _TOTAL_ entradas",
+				infoEmpty: "A mostrar 0 a 0 de 0 entradas",
+				infoFiltered: "(filtrado de _MAX_ entradas totais)",
+				lengthMenu: "Mostrar _MENU_ entradas",
+				loadingRecords: "A carregar...",
+				processing: "A processar...",
+				search: "Procurar:",
+				zeroRecords: "Não foram encontrados resultados",
+				paginate: {
+					first: "Primeiro",
+					last: "Último",
+					next: "Seguinte",
+					previous: "Anterior"
+				},
+				aria: {
+					sortAscending: ": ativar para ordenar a coluna em ordem crescente",
+					sortDescending: ": ativar para ordenar a coluna em ordem decrescente"
+				}
+			},
+			data: historico,
+			columns: [
+				{ 
+					data: 'morada', 
+					title: 'Museu',
+					render: function(data) {
+						return data || "Sem museu";
+					}
+				},
+				{ data: 'data', title: 'Data' },
+				{
+					data: null,
+					title: '',
+					render: function(data) {
+						console.log(data);
+						return `
+							<div class="text-end">
+								 <button class="btn btn-sm custom-btn" data-id="${data.id}">Detalhes</button>
+							</div>`;
+					}
+				}
+			],
+			pageLength: 5
+		});
+
+		// Botão "Detalhes"
+		$('#ocorrencias tbody').on('click', '.custom-btn', function () {
+			console.log("Botão detalhes clicado");
+			const id = $(this).data('id');
+			verOcorrencia(id);
+		});
+	});
+
+	window.addEventListener('DOMContentLoaded', () => {
+	  const table = document.querySelector('#ocorrencias'); // Ou o ID real da tua tabela
+	  if (table) {
+		const rows = table.querySelectorAll('tbody tr').length;
+		localStorage.setItem('concluidas', rows);
+	  }
+	});
+
+		document.addEventListener('DOMContentLoaded', () => {
+			const userData = JSON.parse(localStorage.getItem('googleUser'));
+			if (userData) {
+			const nome = userData.nome;
+			const email = userData.email;
+			const foto = userData.foto;
+
+			if (document.getElementById('userFoto')) document.getElementById('userFoto').src = foto;
+			if (document.getElementById('userFotoBig')) document.getElementById('userFotoBig').src = foto;
+			if (document.getElementById('userNome')) document.getElementById('userNome').textContent = nome;
+			if (document.getElementById('userNomeBig')) document.getElementById('userNomeBig').textContent = nome;
+			if (document.getElementById('userEmail')) document.getElementById('userEmail').textContent = email;
+			}
+		});
+
+		function logoutGoogle() {
+			localStorage.removeItem('googleUser');
+			window.location.href = 'login.html';
+		}
+
+		// Simulação de login Google (modo manual para teste)
+		if (!localStorage.getItem("googleUser")) {
+			localStorage.setItem("googleUser", JSON.stringify({
+			nome: "Inês Martins",
+			email: "inesn.martins14@gmail.com",
+			foto: "https://i.pravatar.cc/150?img=5"
+			}));
+		}

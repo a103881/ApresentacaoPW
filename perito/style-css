@@ -1,0 +1,232 @@
+ body {
+       padding-top: 70px;
+       background-color: #e5edf0;
+     }
+   
+     .navbar-custom {
+       background-color: #ffffff;
+       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+     }
+   
+     .navbar-brand {
+       font-size: 1.3rem;
+       color: #037171;
+       font-size: 20px;
+       font-family: 'Days One', sans-serif;
+     }
+   
+     .navbar-brand:hover {
+       color: #0f3636;
+     }
+   
+     .btn-arrow {
+		background-color: #62a6a6;
+		border: none;
+		font-size: 1.1rem;
+	}
+
+	.btn-arrow:hover {
+		background-color: #a7c6c6;
+	}
+   
+     .table thead {
+       background-color: #f0f0f0;
+     }
+   
+     .avatar-img {
+       width: 30px;
+       height: 30px;
+       border-radius: 50%;
+       object-fit: cover;
+     }
+   
+     .nav-link-icon {
+       font-size: 1.1rem;
+       color: #333;
+     }
+   
+     .nav-link-icon:hover {
+       color: #179a9a;
+     }
+   
+     /* Ícons canto direito */
+     .nav-link{
+       color: #037171 !important;
+     }
+   
+     .nav-link:hover{
+       color:#054048 !important;
+     }
+   
+     /* Estilo do botão "Ocorrências Revistas" */
+     .btn-outline-secondary {
+       background-color: #E9ECEF;
+       color: #777777;
+       border-color: #DDDDDD;
+       border-radius: 12px;
+       width: 179.2px; 
+         height: 33px; 
+       display: flex;
+         justify-content: center;  
+         align-items: center;     
+         text-align: center;
+     }
+   
+     .form-control {
+         width: 286.5px;
+         height: 44px;
+     }
+   
+     .card-header h5{
+         font-size: 16px;
+       font-family: 'Days One', sans-serif;
+     }
+   
+     h3.text-danger {
+         font-size: 16px; 
+         font-family: 'Days One', sans-serif;
+       color: #893037 !important;
+     }
+   
+     .op-7{
+       color: #037171;
+     }
+   
+     .fw{
+       color: #037171;
+     }
+   
+     .logo-icon {
+         position: relative;
+         top: 4px;
+     }
+   
+     .profile-pic {
+         color: #000 !important; 
+         text-decoration: none !important;
+     }
+   
+     #ocorrencias {
+         font-family: 'Public Sans', sans-serif;
+       }
+   
+     .custom-container {
+         max-width: 90%; /* ou 1200px, por exemplo */
+     }
+   
+     .custom-btn {
+         background-color: #E1CBCD;
+         color: #000; 
+         border: none;
+     }
+   
+     .custom-btn:hover {
+         background-color: #af888b !important;
+       }
+   
+     .icon-home{
+       color: #893037;
+     }
+   
+     .btn-home{
+       background-color: #e5edf0;
+       border: none;
+       outline: none;
+     }
+   
+     .btn-home:hover i{
+         color: #000;               
+     }
+   
+     .link-ocorrencias {
+       color: #893037 !important;
+       text-decoration: none;
+       font-weight: normal;
+       font-size: 12px;
+     }
+   
+     .link-ocorrencias:hover {
+       color: #000;
+     }
+
+     .card-body {
+      padding-bottom: 5px; /* aumenta espaço inferior */
+    }
+
+     .card-action {
+        border-top: 1px solid #dbd6d6 !important;
+        padding: 2rem 1rem;;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .btn-success {
+        background-color: #054048 !important; 
+        color: white !important;
+        border: none !important;
+      }
+
+      .btn-success:hover {
+        background-color: #042226 !important;
+        border-color: none !important;
+      }    
+      
+      .btn-danger {
+        background-color: #893037 !important;
+        border-color: none !important;
+        color: white !important;
+      }
+
+      .btn-danger:hover {
+        background-color: #68252b !important;
+        border-color: none !important;
+        color: white !important;
+      }
+
+      .dropdown-user {
+      left: 50% !important;
+      right: 0 !important;
+      transform: translateX(-50%);
+    }
+
+      .dropdown-user .user-box {
+      text-align: center;
+      padding: 10px;
+    }
+
+    #userFotoBig {
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+    }
+
+    #userNomeBig {
+      font-size: 1.2rem; 
+      font-weight: 500;  
+      font-family: 'Public Sans', sans-serif; 
+      margin-top: 10px;
+    }
+
+    #userEmail {
+      font-size: 0.9rem;
+      color: #6c757d; 
+      word-break: break-all; 
+      display: block;
+      margin: 0 auto;
+      max-width: 90%; 
+    }
+
+    .custom-border {
+      position: relative;
+    }
+  
+    .custom-border::after {
+      content: '';
+      position: absolute;
+      bottom: 18px;  
+      left: 0;
+      width: 100%;
+      height: 1px;  
+      background-color: #d1d5db;  
+    }

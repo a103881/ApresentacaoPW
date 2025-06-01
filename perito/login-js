@@ -1,0 +1,21 @@
+window.onload = function () {
+        google.accounts.id.initialize({
+          client_id: "894057879991-bh8sifvdjp5o5j11p32qj0pfv9bsgf8i.apps.googleusercontent.com",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("google_login_btn"),
+          {
+            theme: "outline",
+            size: "large"
+          }
+        );
+      };
+  
+      function handleCredentialResponse(response) {
+        const credential = response.credential;
+        // Process the credential (send to backend or validate it)
+        console.log("Credential Response: ", credential);
+        // Redirect or handle logic
+        window.location.href = "datatables-OpR.html";//Redireciona para a página principal
+      }
