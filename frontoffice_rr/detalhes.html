@@ -34,7 +34,7 @@
   <body>
     <header class="header">
         <div class="logo">
-        <img src="images/logo.png" alt="Logo" class="logo-img">
+        <img src="../images/logo.png" alt="Logo" class="logo-img">
         <h1>EyesEverywhere</h1> <!-- Nome da Marca -->
       </div>
       <div class="nav">
@@ -103,7 +103,6 @@
                         <p><strong>Morada:</strong> ${o.morada || ''}</p>
                         <p><strong>Tipo:</strong> ${o.tipo || ''}</p>
                         <p><strong>Descrição:</strong> ${o.descricao || ''}</p>
-                        <p><strong>Relatório:</strong> ${o.relatorio || 'Sem relatório'}</p>
                         <p><strong>Comentários:</strong> ${o.comentarios || 'Sem comentário'}</p>
                         ${o.anexo ? `<img src="${o.anexo.startsWith('data:image') ? o.anexo : 'data:image/jpeg;base64,' + o.anexo}" alt="Imagem da Ocorrência" style="max-width:100%;margin-top:10px;" />` : ''}
                       `;
