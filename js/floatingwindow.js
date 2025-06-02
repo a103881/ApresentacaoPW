@@ -95,8 +95,12 @@ function mostrarOcorrencias(filtro) {
   const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
   const userId = localStorage.getItem('googleUserId');
 
+  console.log(dadosIniciais);
+
   if (!container) return;
   container.innerHTML = '';
+
+  console.log(dadosIniciais);
 
   if (!userId) return;
 
@@ -105,6 +109,8 @@ function mostrarOcorrencias(filtro) {
       const ocorrencia = dadosIniciais[id];
       const tabela = dadosTabela[id] || {};
       const estado = tabela.estado;
+
+      console.log(estado);
 
       switch (filtro) {
         case 'aberto':
