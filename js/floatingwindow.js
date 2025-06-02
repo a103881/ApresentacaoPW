@@ -120,23 +120,33 @@ function getRadioValue(name) {
 
 
 // =================== Mostrar Ocorrências =================== //
-function mostrarOcorrencias() {
+function mostrarOcorrencias(filtro) {
   const container = document.getElementById('ocorrencias-container');
   const dadosIniciais = JSON.parse(localStorage.getItem("dadosOcorrencias")) || {};
   const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
   const userId = localStorage.getItem('googleUserId');
 
+  container.innerHTML = '';
 
-  container.innerHTML = ''; // Limpa conteúdo anterior
+  if (!userId) return;
 
-  if (!userId) {
-    // Caso não haja userId, limpa a lista e termina
-    return;
-  }
-
-  // Ordenar IDs para mostrar na ordem crescente
   const ids = Object.keys(dadosIniciais)
-    .filter(id => dadosIniciais[id].googleUserId === userId)
+    .filter(id => {
+      const ocorrencia = dadosIniciais[id];
+      const tabela = dadosTabela[id] || {};
+      const estado = tabela.estado;
+
+      switch (filtro) {
+        case 'aberto':
+          return ocorrencia.googleUserId === userId && estado === 'Por analisar';
+        case 'analise':
+          return ocorrencia.googleUserId === userId && estado === 'Por concluir';
+        case 'concluido':
+          return estado === 'Concluido'; // Aqui não se filtra pelo user
+        default:
+          return false;
+      }
+    })
     .sort((a, b) => Number(a) - Number(b));
 
   ids.forEach(id => {
@@ -151,18 +161,17 @@ function mostrarOcorrencias() {
     titulo.classList.add('titulo');
     div.appendChild(titulo);
 
-
     const wrapper = document.createElement('div');
     wrapper.classList.add('meta-wrap');
 
     const local = document.createElement('h2');
     local.textContent = ocorrencia.morada || "";
     wrapper.appendChild(local);
-    div.appendChild(wrapper);
 
     const cidade = document.createElement('h2');
     cidade.textContent = ocorrencia.cidade || "Cidade não espeficida";
     wrapper.appendChild(cidade);
+
     div.appendChild(wrapper);
 
     const detalhes = document.createElement('div');
