@@ -9680,3 +9680,19 @@ input[type="checkbox"]:checked::after {
   word-wrap: break-word; /* quebra palavras longas */
   overflow-wrap: break-word; /* quebra palavras longas (compatível) */
 }
+
+
+#ocorrencias-container > div {
+  position: relative;
+  padding-left: 170px; /* reserva espaço à esquerda */
+  min-height: 120px;
+}
+
+#ocorrencias-container > div img {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 150px;
+  height: auto;
+  border-radius: 6px;
+}
