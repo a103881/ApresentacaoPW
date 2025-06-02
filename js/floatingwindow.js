@@ -278,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
       dadosTabela[novoId] = {
         museu: local,
         data: new Date().toLocaleDateString('pt-PT'),
-        estado: "Por concluir"
+        estado: "Por analisar"
       };
 
       try {
