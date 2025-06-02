@@ -77,7 +77,7 @@ function renderTabela() {
         <td>${ocorrencia.estado || "Pendente"}</td>
         <td>${ocorrencia.perito || "Pendente"}</td>
         <td>
-          <button class="btn btn-sm btn-eyes editar-material" data-index="${index}" data-bs-toggle="offcanvas" data-bs-target="#reverOcorrencia">
+          <button class="btn btn-sm btn-eyes editar-ocorrencia" id="botaoRever" data-index="${index}" data-bs-toggle="offcanvas" data-bs-target="#reverOcorrencia">
             Rever
           </button>
         </td>
@@ -122,8 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Ao clicar em rever
-/*document.addEventListener("click", function (e) {
-  if (e.target.classList.contains("editar-material")) {
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("editar-ocorrencia")) {
     const index = e.target.getAttribute("data-index");
     const ocorrencias = JSON.parse(localStorage.getItem("ocorrencias")) || [];
     const ocorrencia = ocorrencias[index];
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("atribuirPerito").value = ocorrencia.perito || "";
     document.getElementById("formReverOcorrencia").setAttribute("data-index", index);
   }
-});*/
+});
 
 
 // Salvar alterações
@@ -145,7 +145,8 @@ document.getElementById("formReverOcorrencia").addEventListener("submit", functi
 
   const ocorrencias = JSON.parse(localStorage.getItem("ocorrencias")) || [];
   ocorrencias[index].estado = estado;
-  ocorrencias[index].perito = estado === "Aceite" ? perito : peritos;
+  ocorrencias[index].perito = estado === "Aceite" ? perito : (estado === "Recusada" ? "--" : "Pendente");
+
 
   localStorage.setItem("ocorrencias", JSON.stringify(ocorrencias));
   renderTabela();
