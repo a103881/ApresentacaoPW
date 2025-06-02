@@ -136,6 +136,7 @@ function mostrarOcorrencias() {
   const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
   const userId = localStorage.getItem('googleUserId');
 
+
   container.innerHTML = ''; // Limpa conteúdo anterior
 
   if (!userId) {
@@ -160,12 +161,18 @@ function mostrarOcorrencias() {
     titulo.classList.add('titulo');
     div.appendChild(titulo);
 
+
     const wrapper = document.createElement('div');
     wrapper.classList.add('meta-wrap');
 
     const local = document.createElement('h2');
     local.textContent = ocorrencia.morada || "";
     wrapper.appendChild(local);
+    div.appendChild(wrapper);
+
+    const cidade = document.createElement('h2');
+    cidade.textContent = ocorrencia.cidade || "Cidade não espeficida";
+    wrapper.appendChild(cidade);
     div.appendChild(wrapper);
 
     const detalhes = document.createElement('div');
@@ -209,8 +216,6 @@ function mostrarOcorrencias() {
     container.appendChild(div);
   });
 }
-
-
 
 // =================== EVENTO DE SUBMISSÃO =================== //
 document.addEventListener("DOMContentLoaded", function () {
