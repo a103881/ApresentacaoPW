@@ -95,12 +95,8 @@ function mostrarOcorrencias(filtro) {
   const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
   const userId = localStorage.getItem('googleUserId');
 
-  console.log(dadosIniciais);
-
   if (!container) return;
   container.innerHTML = '';
-
-  console.log(dadosIniciais);
 
   if (!userId) return;
 
@@ -109,8 +105,6 @@ function mostrarOcorrencias(filtro) {
       const ocorrencia = dadosIniciais[id];
       const tabela = dadosTabela[id] || {};
       const estado = tabela.estado;
-
-      console.log(estado);
 
       switch (filtro) {
         case 'aberto':
@@ -141,7 +135,7 @@ function mostrarOcorrencias(filtro) {
     wrapper.classList.add('meta-wrap');
 
     const local = document.createElement('h2');
-    local.textContent = ocorrencia.morada || "";
+    local.textContent = ocorrencia.local || "";
     wrapper.appendChild(local);
 
     const cidade = document.createElement('h2');
@@ -243,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
         titulo,
         cidade,
         tipo: Array.isArray(tipoProblema) ? tipoProblema.join(', ') : tipoProblema,
-        morada: local,
+        local: local,
         descricao,
         relatorio: "",
         comentarios,

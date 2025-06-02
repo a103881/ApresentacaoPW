@@ -61,23 +61,32 @@ function contarOcorrencias() {
 
 // Renderiza a tabela
 function renderTabela() {
-  const ocorrencias = JSON.parse(localStorage.getItem("ocorrencias")) || [];
+  const dadosOcorrencias = JSON.parse(localStorage.getItem("dadosOcorrencias")) || {};
+  const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
+
+  console.log(dadosOcorrencias)
+
   const corpoTabela = document.querySelector("#tabelaOcorrencias tbody");
+  if (!corpoTabela) return;
+
   corpoTabela.innerHTML = "";
 
-  ocorrencias.forEach((ocorrencia, index) => {
+  Object.keys(dadosOcorrencias).forEach((id, index) => {
+    const ocorrencia = dadosOcorrencias[id];
+    const tabela = dadosTabela[id] || {};
+
     corpoTabela.innerHTML += `
       <tr>
-        <td>${ocorrencia.titulo}</td>
-        <td>${ocorrencia.local}</td>
-        <td>${ocorrencia.problema}</td>
-        <td>${ocorrencia.descricao}</td>
-        <td>${ocorrencia.comentarios}</td>
-        <td>${ocorrencia.ficheiro}</td>
-        <td>${ocorrencia.estado || "Pendente"}</td>
-        <td>${ocorrencia.perito || "Pendente"}</td>
+        <td>${ocorrencia.titulo || ""}</td>
+        <td>${ocorrencia.local || ""}</td>
+        <td>${ocorrencia.tipo || ""}</td>
+        <td>${ocorrencia.descricao || ""}</td>
+        <td>${ocorrencia.comentarios || ""}</td>
+        <td>${ocorrencia.anexo ? '📎' : '—'}</td>
+        <td>${tabela.estado || "Pendente"}</td>
+        <td>${tabela.perito || "Pendente"}</td>
         <td>
-          <button class="btn btn-sm btn-eyes editar-ocorrencia" id="botaoRever" data-index="${index}" data-bs-toggle="offcanvas" data-bs-target="#reverOcorrencia">
+          <button class="btn btn-sm btn-eyes editar-ocorrencia" id="botaoRever" data-index="${index}" data-id="${id}" data-bs-toggle="offcanvas" data-bs-target="#reverOcorrencia">
             Rever
           </button>
         </td>
@@ -124,13 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // Ao clicar em rever
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("editar-ocorrencia")) {
-    const index = e.target.getAttribute("data-index");
-    const ocorrencias = JSON.parse(localStorage.getItem("ocorrencias")) || [];
-    const ocorrencia = ocorrencias[index];
+    const id = e.target.getAttribute("data-id");
 
-    document.getElementById("estadoOcorrencia").value = ocorrencia.estado || "";
-    document.getElementById("atribuirPerito").value = ocorrencia.perito || "";
-    document.getElementById("formReverOcorrencia").setAttribute("data-index", index);
+    const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
+    const tabela = dadosTabela[id] || {};
+
+    document.getElementById("estadoOcorrencia").value = tabela.estado || "";
+    document.getElementById("atribuirPerito").value = tabela.perito || "";
+    document.getElementById("formReverOcorrencia").setAttribute("data-id", id);
   }
 });
 
@@ -139,24 +149,30 @@ document.addEventListener("click", function (e) {
 document.getElementById("formReverOcorrencia").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const index = this.getAttribute("data-index");
+  const id = this.getAttribute("data-id");
   const estado = document.getElementById("estadoOcorrencia").value;
-  const perito = document.getElementById("atribuirPerito").value;
+  const peritoSelecionado = document.getElementById("atribuirPerito").value;
 
-  const ocorrencias = JSON.parse(localStorage.getItem("ocorrencias")) || [];
-  ocorrencias[index].estado = estado;
-  ocorrencias[index].perito = estado === "Aceite" ? perito : (estado === "Recusada" ? "--" : "Pendente");
+  const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
 
+  dadosTabela[id] = {
+    ...dadosTabela[id],
+    estado: estado,
+    perito: estado === "Aceite" ? peritoSelecionado : (estado === "Recusada" ? "--" : "Pendente")
+  };
 
-  localStorage.setItem("ocorrencias", JSON.stringify(ocorrencias));
+  localStorage.setItem("dadosTabelaOcorrencias", JSON.stringify(dadosTabela));
   renderTabela();
 
-  // Fechar offcanvas
   const offcanvasElement = document.getElementById("reverOcorrencia");
   const offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
   offcanvasInstance.hide();
 });
-
 // Inicialização
 renderTabela();
+
+function logoutGoogle() {
+    localStorage.removeItem('googleUser');
+    window.location.href = 'login.html';
+  }
 
