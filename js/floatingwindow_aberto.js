@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
 
     const local = getRadioValue("local");
+    const cidade = getRadioValue("cidade");
     const tipoProblema = getCheckboxValues("tipo_problema");
     const titulo = document.getElementById("titulo_ocorrencia").value.trim();
     const descricao = document.getElementById("descricao").value.trim();
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const fotoInput = document.getElementById('foto');
     const file = fotoInput?.files[0];
 
-    if (!local || !tipoProblema.length || !titulo || !descricao) {
+    if (!local || !cidade || !tipoProblema.length || !titulo || !descricao) {
       alert("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
