@@ -1,5 +1,5 @@
 // Simulação de ocorrências iniciais (executado só uma vez)
-if (!localStorage.getItem("ocorrencias")) {
+/*if (!localStorage.getItem("ocorrencias")) {
   const ocorrenciasIniciais = [
     { titulo: "Incêndia", local: "Faro", problema: "Danos", descricao: "Houve um incêndio nesta quarta-feira. Durante a tarde cheirava um pouco a diluente.", comentarios: "", ficheiro: "data:image/png;base64,iVBORw0KgoA.jpg" },
     { titulo: "Sala fechada", local: "Porto", problema: "Conteúdo", descricao: "Paguei para vir a este museu apenas por...", comentarios: "", ficheiro: "data:image/png;base64,iVBORw0KgoA.jpg" },
@@ -9,9 +9,9 @@ if (!localStorage.getItem("ocorrencias")) {
   ];
   localStorage.setItem("ocorrencias", JSON.stringify(ocorrenciasIniciais));
 }
-
+*/
 function contarOcorrencias() {
-  const ocorrencias = JSON.parse(localStorage.getItem("ocorrencias")) || [];
+  const ocorrencias = JSON.parse(localStorage.getItem("dadosOcorrencias")) || [];
 
   // 1. Total de ocorrências
   const total = ocorrencias.length;
