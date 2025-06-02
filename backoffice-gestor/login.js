@@ -2,7 +2,7 @@
 
 window.onload = function () {
   google.accounts.id.initialize({
-    client_id: "266416139565-pofpcet446jg9a7nhafofhloturttbfj.apps.googleusercontent.com",
+    client_id: "849411639158-lqosih074s14md550rrtul8g7b7hijd3.apps.googleusercontent.com",
     callback: handleCredentialResponse,
     auto_select: false
   });
