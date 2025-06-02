@@ -9229,13 +9229,14 @@ body, input, label {
 }
 
 .secao-local,
+.secao-cidade,
 .secao-problema {
   flex: 1 1 250px;
   min-width: 250px;
 }
 
 
-  .secao-local h4, .secao-problema h4 {
+  .secao-local h4, .secao-cidade h4, .secao-problema h4 {
     color: #007572;
     font-size: 1.2rem;
     margin-bottom: 10px;
@@ -9244,6 +9245,7 @@ body, input, label {
   }
 
 .secao-local label,
+.secao-cidade label,
 .secao-problema label {
   display: flex;
   align-items: center;
@@ -9254,6 +9256,7 @@ body, input, label {
 
 
 .secao-local h4,
+.secao-cidade h4,
 .secao-problema h4,
 .secao-titulo h4,
 .secao-descricao h4,
@@ -9333,7 +9336,7 @@ input[type="checkbox"]:checked::after {
   opacity: 1;
 }
 
-.secao-titulo {
+.secao-titulo,.secao-cidade {
   clear: both;
   margin-top: 40px;
   width: 90%;
@@ -9342,7 +9345,7 @@ input[type="checkbox"]:checked::after {
   font-family: 'Inter', sans-serif;
 }
 
-.titulo-label {
+.titulo-label, .cidade-label {
   color: #007572;
   font-family: 'Days One', sans-serif;
   font-size: 1.1rem;
@@ -9357,7 +9360,7 @@ input[type="checkbox"]:checked::after {
   font-family: 'Inter', sans-serif;
 }
 
-.secao-titulo input[type="text"] {
+.secao-titulo input[type="text"], .secao-cidade input[type="text"]{
   width: 100%;
   padding: 12px 20px;
   border: 1px solid #007572;
@@ -9368,7 +9371,7 @@ input[type="checkbox"]:checked::after {
   font-family: 'Inter', sans-serif;
 }
 
-.secao-titulo input[type="text"]::placeholder {
+.secao-titulo input[type="text"]::placeholder , .secao-cidade [type="text"]::placeholder{
   color: #aaa;
 }
 

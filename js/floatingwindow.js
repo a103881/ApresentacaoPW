@@ -260,6 +260,7 @@ document.addEventListener("DOMContentLoaded", function () {
       dadosIniciais[novoId] = {
         googleUserId: userId,
         titulo,
+        cidade,
         tipo: Array.isArray(tipoProblema) ? tipoProblema.join(', ') : tipoProblema,
         morada: local,
         descricao,
