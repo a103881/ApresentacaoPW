@@ -15,32 +15,6 @@
 // });
 
 // Criar Ocorrência
-// =================== GOOGLE MAPS =================== //
-window.addEventListener("load", function () {
-  const mapDiv = document.getElementById("map");
-
-  if (mapDiv) {
-    const map = new google.maps.Map(mapDiv, {
-      center: { lat: 41.15, lng: -8.61 },
-      zoom: 8
-    });
-  } else {
-    console.error("Elemento com ID 'map' não encontrado.");
-  }
-});
- 
-function initMap() {
-  const mapDiv = document.getElementById("map");
-
-  if (mapDiv) {
-    const map = new google.maps.Map(mapDiv, {
-      center: { lat: 41.15, lng: -8.61 },
-      zoom: 8
-    });
-  } else {
-    console.error("Elemento com ID 'map' não encontrado.");
-  }
-}
 
 document.addEventListener('DOMContentLoaded', function () {
   const abrirModalBtn = document.getElementById('abrirModal');
@@ -114,11 +88,6 @@ function getRadioValue(name) {
         });
 
 
-    document.getElementById('abrirModal').addEventListener('click', function() {
-      alert('clicado');
-    });
-
-
 // =================== Mostrar Ocorrências =================== //
 function mostrarOcorrencias(filtro) {
   const container = document.getElementById('ocorrencias-container');
@@ -126,6 +95,7 @@ function mostrarOcorrencias(filtro) {
   const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
   const userId = localStorage.getItem('googleUserId');
 
+  if (!container) return;
   container.innerHTML = '';
 
   if (!userId) return;
@@ -287,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fecharModal();
         const form = document.getElementById("formOcorrencia");
         if (form) form.reset();
-        mostrarOcorrencias();
+        mostrarOcorrencias('aberto');
       } catch (e) {
         console.error("Erro ao guardar no localStorage:", e);
         alert("Erro ao guardar a ocorrência.");
