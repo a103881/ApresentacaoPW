@@ -119,16 +119,6 @@ function getRadioValue(name) {
     });
 
 
-
-    function getOcorrencias() {
-      const ocorrenciasJSON = localStorage.getItem('ocorrencias');
-      if (ocorrenciasJSON) {
-        return JSON.parse(ocorrenciasJSON);
-      }
-      return [];
-    }
-
-
 // =================== Mostrar Ocorrências =================== //
 function mostrarOcorrencias() {
   const container = document.getElementById('ocorrencias-container');

@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Guardar parte da ocorrência principal
       dadosIniciais[novoId] = {
         titulo,
+        cidade,
         tipo: Array.isArray(tipoProblema) ? tipoProblema.join(', ') : tipoProblema,
         morada: local,
         descricao,
