@@ -145,8 +145,8 @@
            </div>
  
            <div class="form-group mt-3">
-             <label for="morada">Local</label>
-             <input type="text" class="form-control" id="morada" placeholder="Ex: Rua da Universidade, 123" />
+             <label for="local">Local</label>
+             <input type="text" class="form-control" id="local" placeholder="Ex: Rua da Universidade, 123" />
            </div>
          </div>
  

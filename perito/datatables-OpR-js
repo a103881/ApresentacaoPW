@@ -98,7 +98,7 @@ function initDadosTabela() {
 			googleUserId:"1",
 			titulo: "Queda de visitante nas escadas",
 			tipo: "acidente",
-			morada: "Museu Coleção Berardo - CCB, Lisboa",
+			local: "Museu Coleção Berardo - CCB, Lisboa",
 			descricao: "Visitante escorregou nas escadas internas da ala sul.",
 			relatorio: "",
 			comentarios: "Área sinalizada temporariamente com aviso de piso molhado.",
@@ -108,7 +108,7 @@ function initDadosTabela() {
 			googleUserId:"2",
 			titulo: "Alarme de incêndio disparado indevidamente",
 			tipo: "falha técnica",
-			morada: "Museu do Oriente - Doca de Alcântara, Lisboa",
+			local: "Museu do Oriente - Doca de Alcântara, Lisboa",
 			descricao: "Alarme disparado sem presença de fumo ou fogo.",
 			relatorio: "",
 			comentarios: "Revisão geral do sistema agendada."
@@ -117,7 +117,7 @@ function initDadosTabela() {
 			googleUserId:"3",
 			titulo: "Pane no sistema de climatização",
 			tipo: "falha técnica",
-			morada: "Museu Nacional do Azulejo - Lisboa",
+			local: "Museu Nacional do Azulejo - Lisboa",
 			descricao: "Temperatura instável na sala de conservação.",
 			relatorio: "",
 			comentarios: "Condições de preservação afetadas temporariamente."
@@ -126,7 +126,7 @@ function initDadosTabela() {
 			googleUserId:"4",
 			titulo: "Fissura em parede expositiva",
 			tipo: "danos",
-			morada: "Museu Nacional de Arqueologia - Praça do Império, Lisboa",
+			local: "Museu Nacional de Arqueologia - Praça do Império, Lisboa",
 			descricao: "Fissura detetada na parede da sala de arte romana.",
 			relatorio: "",
 			comentarios: "Exposição deslocada temporariamente."
@@ -135,7 +135,7 @@ function initDadosTabela() {
 			googleUserId:"5",
 			titulo: "Furto de peça decorativa",
 			tipo: "furto",
-			morada: "Museu Nacional de Arte Antiga - Rua das Janelas Verdes, Lisboa",
+			local: "Museu Nacional de Arte Antiga - Rua das Janelas Verdes, Lisboa",
 			descricao: "Desaparecimento de pequeno busto em exposição temporária.",
 			relatorio: "",
 			comentarios: "Segurança reforçada nas salas centrais."
@@ -144,7 +144,7 @@ function initDadosTabela() {
 			googleUserId:"6",
 			titulo: "Infiltração no teto da galeria principal",
 			tipo: "danos",
-			morada: "Museu da Eletricidade (MAAT) - Avenida Brasília, Lisboa",
+			local: "Museu da Eletricidade (MAAT) - Avenida Brasília, Lisboa",
 			descricao: "Água pingando após chuvas intensas.",
 			relatorio: "",
 			comentarios: "Possível falha no isolamento da cobertura."
@@ -153,7 +153,7 @@ function initDadosTabela() {
 			googleUserId:"7",
 			titulo: "Vandalismo em exposição exterior",
 			tipo: "vandalismo",
-			morada: "Museu Bordalo Pinheiro - Campo Grande, Lisboa",
+			local: "Museu Bordalo Pinheiro - Campo Grande, Lisboa",
 			descricao: "Pintura em spray numa escultura do jardim.",
 			relatorio: "",
 			comentarios: "Segurança vai reforçar ronda noturna."
@@ -162,7 +162,7 @@ function initDadosTabela() {
 			googleUserId:"8",
 			titulo: "Problema técnico com iluminação cénica",
 			tipo: "falha técnica",
-			morada: "Museu da Marioneta - Convento das Bernardas, Lisboa",
+			local: "Museu da Marioneta - Convento das Bernardas, Lisboa",
 			descricao: "Luzes intermitentes na sala de exposições temporárias.",
 			relatorio: "",
 			comentarios: "Equipamento já encomendado."
@@ -171,7 +171,7 @@ function initDadosTabela() {
 			googleUserId:"9",
 			titulo: "Curto-circuito em painel interativo",
 			tipo: "falha técnica",
-			morada: "Museu da Carris - Alcântara, Lisboa",
+			local: "Museu da Carris - Alcântara, Lisboa",
 			descricao: "Painel informativo digital deixou de funcionar.",
 			relatorio: "",
 			comentarios: "Visitantes redirecionados para alternativa impressa."
@@ -180,7 +180,7 @@ function initDadosTabela() {
 			googleUserId:"10",
 			titulo: "Desprendimento de placa no átrio",
 			tipo: "danos",
-			morada: "Museu Nacional de História Natural - Rua da Escola Politécnica, Lisboa",
+			local: "Museu Nacional de História Natural - Rua da Escola Politécnica, Lisboa",
 			descricao: "Placa decorativa caiu da parede na entrada.",
 			relatorio: "",
 			comentarios: "Relatório fotográfico anexado à ocorrência."
@@ -237,10 +237,28 @@ function initDadosTabela() {
 			  }
 		  });
   
-		  function logoutGoogle() {
-			  localStorage.removeItem('googleUser');
-			  window.location.href = 'login.html';
-		  }
+		window.addEventListener('DOMContentLoaded', () => {
+			const table = document.querySelector('#ocorrencias');
+			if (table) {
+				// Vai buscar todas as linhas
+				const rows = table.querySelectorAll('tbody tr');
+
+				// Filtra só as linhas que têm "Por Analisar" na célula de estado (3ª célula)
+				const porAnalisarCount = Array.from(rows).filter(row => {
+				const estadoCell = row.querySelectorAll('td')[2]; // 3ª coluna = Estado
+				return estadoCell && estadoCell.textContent.trim() === 'Por concluir'; 
+				}).length;
+
+				// Guarda no localStorage
+				localStorage.setItem('porConcluir', porAnalisarCount);
+			}
+			});
+
+  
+		function logoutGoogle() {
+			localStorage.removeItem('googleUser');
+			window.location.href = 'login.html';
+		}
   
 		  // Simulação de login Google (modo manual para teste)
 		  if (!localStorage.getItem("googleUser")) {

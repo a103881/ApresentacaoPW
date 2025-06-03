@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", () => {
     
         document.getElementById("titulo").value = dados.titulo || "";
         document.getElementById("tipo").value = dados.tipo || "";
-        document.getElementById("morada").value = dados.morada || "";
+        document.getElementById("local").value = dados.local || "";
         document.getElementById("descricao").value = dados.descricao || "";
         document.getElementById("relatorio").value = dados.relatorio || "";
         document.getElementById("comentarios").value = dados.comentarios || "";

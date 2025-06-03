@@ -40,7 +40,7 @@ $(document).ready(function () {
 			data: historico,
 			columns: [
 				{ 
-					data: 'morada', 
+					data: 'local', 
 					title: 'Museu',
 					render: function(data) {
 						return data || "Sem museu";

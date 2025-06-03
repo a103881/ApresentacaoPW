@@ -187,32 +187,32 @@ window.onload = function () {
 
  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 
-        async function geocodificarMorada(morada) {
-          // Primeiro simplifica a morada
-          const moradaSimples = simplificarMorada(morada);
+        async function geocodificarLocal(local) {
+          // Primeiro simplifica a local
+          const localSimples = simplificarLocal(local);
   
         // Se estiver no fallback, retorna coordenadas fixas
-        if (locaisFixos[moradaSimples]) {
-          return locaisFixos[moradaSimples];
+        if (locaisFixos[localSimples]) {
+          return locaisFixos[localSimples];
         }
   
         try {
-          const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(moradaSimples)}`);
+          const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(localSimples)}`);
           if (!response.ok) throw new Error(`HTTP error ${response.status}`);
           const data = await response.json();
           if (data.length === 0) {
-            console.warn("Morada não encontrada:", morada);
+            console.warn("Morada- não encontrada:", local);
             return null;
           }
           return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
         } catch (error) {
-          console.error("Erro ao geocodificar:", morada, error);
+          console.error("Erro ao geocodificar:", local, error);
           return null;
         }
         }
   
-        function simplificarMorada(morada) {
-        return morada.split(' - ')[0].trim();
+        function simplificarLocal(local) {
+        return local.split(' - ')[0].trim();
         }
   
         const locaisFixos = {
@@ -222,10 +222,10 @@ window.onload = function () {
       
         async function adicionarPins(ocorrencias, cor, mapa) {
           for (const ocorrencia of ocorrencias) {
-            const morada = ocorrencia.morada;
-            if (!morada) continue;
+            const local = ocorrencia.local;
+            if (!local) continue;
   
-            const coords = await geocodificarMorada(morada);
+            const coords = await geocodificarLocal(local);
             if (coords) {
               const pin = L.circleMarker(coords, {
                 radius: 8,
@@ -233,7 +233,7 @@ window.onload = function () {
                 fillColor: cor,
                 fillOpacity: 0.8
               }).addTo(mapa);
-              pin.bindPopup(`<strong>${ocorrencia.titulo}</strong><br>${morada}`);
+              pin.bindPopup(`<strong>${ocorrencia.titulo}</strong><br>${local}`);
             }
   
             await new Promise(resolve => setTimeout(resolve, 800)); // Espera 800ms entre chamadas
@@ -255,10 +255,10 @@ window.onload = function () {
           const todasOcorrencias = [...dadosOcorrencias, ...historicoOcorrencias];
   
           for (const ocorrencia of todasOcorrencias) {
-              if (!ocorrencia.morada) continue;
+              if (!ocorrencia.local) continue;
   
               try {
-                  const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(ocorrencia.morada)}`);
+                  const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(ocorrencia.local)}`);
                   const data = await response.json();
   
                   if (data && data.length > 0) {
@@ -275,12 +275,12 @@ window.onload = function () {
   
                       L.marker([lat, lon], { icon: icone })
                           .addTo(mapa)
-                          .bindPopup(`<b>${ocorrencia.titulo}</b><br>${ocorrencia.morada}`);
+                          .bindPopup(`<b>${ocorrencia.titulo}</b><br>${ocorrencia.local}`);
                   } else {
-                      console.warn("Morada não encontrada:", ocorrencia.morada);
+                      console.warn("Morada não encontrada:", ocorrencia.local);
                   }
               } catch (error) {
-                  console.error("Erro ao geocodificar:", ocorrencia.morada, error);
+                  console.error("Erro ao geocodificar:", ocorrencia.local, error);
               }
           }
       });

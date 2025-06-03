@@ -346,8 +346,8 @@
               </div>
     
               <div class="form-group mt-3">
-                <label for="morada">Local</label>
-                <input type="text" class="form-control" id="morada" placeholder="Ex: Rua da Universidade, 123" />
+                <label for="local">Local</label>
+                <input type="text" class="form-control" id="local" placeholder="Ex: Rua da Universidade, 123" />
               </div>
             </div>
     
@@ -409,7 +409,7 @@
           // Preenche os campos do formulário
           document.getElementById("titulo").value = ocorrencia.titulo || "";
           document.getElementById("tipo").value = ocorrencia.tipo || "";
-          document.getElementById("morada").value = ocorrencia.morada || "";
+          document.getElementById("local").value = ocorrencia.local || "";
           document.getElementById("descricao").value = ocorrencia.descricao || "";
           document.getElementById("relatorio").value = ocorrencia.relatorio || "";
           document.getElementById("comentarios").value = ocorrencia.comentarios || "";
@@ -467,7 +467,7 @@
       function confirmarOcorrencia() {
         const titulo = document.getElementById("titulo").value || "Sem título";
         const tipo = document.getElementById("tipo").value || "";
-        const morada = document.getElementById("morada").value || "";
+        const local = document.getElementById("local").value || "";
         const descricao = document.getElementById("descricao").value || "";
         const relatorio = document.getElementById("relatorio").value || "";
         const comentarios = document.getElementById("comentarios").value || "";
@@ -502,7 +502,7 @@
         titulo,
         data: dataAtual,
         tipo,
-        morada,
+        local,
         descricao,
         relatorio,
         comentarios

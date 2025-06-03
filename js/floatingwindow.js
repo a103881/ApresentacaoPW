@@ -112,12 +112,21 @@ function mostrarOcorrencias(filtro) {
         case 'analise':
           return ocorrencia.googleUserId === userId && estado === 'Por concluir';
         case 'concluido':
-          return estado === 'Concluido'; // Aqui não se filtra pelo user
+          return estado === 'Concluido';
         default:
           return false;
       }
     })
     .sort((a, b) => Number(a) - Number(b));
+
+  if (ids.length === 0) {
+  const semOcorrencias = document.createElement('p');
+  semOcorrencias.textContent = 'Ainda não fez nenhuma ocorrência. Clique no botão "Criar Ocorrência" para começar.';
+  semOcorrencias.setAttribute('data-aos', 'fade-up');
+  semOcorrencias.setAttribute('data-aos-delay', '100');
+  container.appendChild(semOcorrencias);
+  return;
+}
 
   ids.forEach(id => {
     const ocorrencia = dadosIniciais[id];
