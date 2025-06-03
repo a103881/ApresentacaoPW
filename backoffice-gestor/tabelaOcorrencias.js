@@ -22,10 +22,9 @@ function contarOcorrencias() {
   localStorage.setItem("auditorias processadas", naoPendentes);
 
   //3. Ocorrências por cidade
-  const ocorrenciasCidade = JSON.parse(localStorage.getItem("ocorrencias")) || [];
   const auditoriasPorCidade = {};
 
-  ocorrenciasCidade.forEach(ocorrencia => {
+  ocorrencias.forEach(ocorrencia => {
     const cidade = ocorrencia.local;
     if (cidade) {
       auditoriasPorCidade[cidade] = (auditoriasPorCidade[cidade] || 0) + 1;
@@ -34,10 +33,9 @@ function contarOcorrencias() {
   localStorage.setItem("auditoriasPorCidade", JSON.stringify(auditoriasPorCidade));
 
   // 4. Auditorias aceites por cidade
-  const ocorrenciasAceitesPorCidade = JSON.parse(localStorage.getItem("ocorrencias")) || [];
   const auditoriasAceitesPorCidade = {};
 
-  ocorrenciasAceitesPorCidade.forEach(ocorrencia => {
+  ocorrencias.forEach(ocorrencia => {
     const cidade = ocorrencia.local;
     const estado = (ocorrencia.estado || "");
     if (estado === "Aceite") {
@@ -64,10 +62,10 @@ function renderTabela() {
   const dadosOcorrencias = JSON.parse(localStorage.getItem("dadosOcorrencias")) || {};
   const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
 
-  console.log(dadosOcorrencias)
+  console.log(dadosOcorrencias);
 
   const corpoTabela = document.querySelector("#tabelaOcorrencias tbody");
-  if (!corpoTabela) return;
+  //if (!corpoTabela) return;
 
   corpoTabela.innerHTML = "";
 
@@ -77,8 +75,9 @@ function renderTabela() {
 
     corpoTabela.innerHTML += `
       <tr>
-        <td>${ocorrencia.titulo || ""}</td>
         <td>${ocorrencia.local || ""}</td>
+        <td>${ocorrencia.cidade || ""}</td>
+        <td>${ocorrencia.titulo || ""}</td>
         <td>${ocorrencia.tipo || ""}</td>
         <td>${ocorrencia.descricao || ""}</td>
         <td>${ocorrencia.comentarios || ""}</td>
