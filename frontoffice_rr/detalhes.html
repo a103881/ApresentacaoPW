@@ -92,6 +92,7 @@
 
                   const container = document.getElementById('detalhes-ocorrencia');
                   const dadosIniciais = JSON.parse(localStorage.getItem("dadosOcorrencias")) || {};
+                  const dadosTabela = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
                   const userId = localStorage.getItem('googleUserId');
 
                   if (id && dadosIniciais[id]) {
@@ -100,7 +101,7 @@
                     if (o.googleUserId === userId) {
                       container.innerHTML = `
                         <h1>${o.titulo}</h1>
-                        <p><strong>Morada:</strong> ${o.morada || ''}</p>
+                        <p><strong>Morada:</strong> ${(dadosTabela[id] && dadosTabela[id].museu) || ''}</p>
                         <p><strong>Tipo:</strong> ${o.tipo || ''}</p>
                         <p><strong>Descrição:</strong> ${o.descricao || ''}</p>
                         <p><strong>Comentários:</strong> ${o.comentarios || 'Sem comentário'}</p>

@@ -57,7 +57,6 @@ const MUSEUS_KEY = 'museus';
 		  <td>${museu.tipo}</td>
 		  <td>${museu.ano_fundacao}</td>
 		  <td><a href="${museu.website}" target="_blank">${museu.website}</a></td>
-		  <td><span class="badge ${museu.ativo ? 'bg-success' : 'bg-danger'}">${museu.ativo ? 'Ativo' : 'Inativo'}</span></td>
 		`;
 		tbody.appendChild(tr);
 	  });
@@ -80,8 +79,7 @@ const MUSEUS_KEY = 'museus';
 		localizacao,
 		tipo,
 		ano_fundacao,
-		website,
-		ativo: false // Adiciona a informação de status inativo
+		website
 	  };
   
 	  const museus = JSON.parse(localStorage.getItem(MUSEUS_KEY)) || [];

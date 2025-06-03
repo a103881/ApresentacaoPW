@@ -11,45 +11,50 @@
 }
 */
 function contarOcorrencias() {
-  const ocorrencias = JSON.parse(localStorage.getItem("dadosOcorrencias")) || [];
+  const dadosRaw = JSON.parse(localStorage.getItem("dadosTabelaOcorrencias")) || {};
+  const ocorrencias = Array.isArray(dadosRaw) ? dadosRaw : Object.values(dadosRaw);
+  const dadosRaw2 = JSON.parse(localStorage.getItem("dadosOcorrencias")) || {};
+  const ocorrencias2 = Array.isArray(dadosRaw2) ? dadosRaw2 : Object.values(dadosRaw2);
 
   // 1. Total de ocorrências
   const total = ocorrencias.length;
   localStorage.setItem("auditorias", total);
 
-  // 2. Ocorrências não pendentes (estado diferente de "Por Rever")
-  const naoPendentes = ocorrencias.filter(o => (o.estado || "Pendente").toLowerCase() !== "pendente").length;
+  // 2. Ocorrências não pendentes (estado diferente de "Pendente")
+  const naoPendentes = ocorrencias.filter(o => String(o.estado || "Por analisar").toLowerCase() !== "por analisar").length;
   localStorage.setItem("auditorias processadas", naoPendentes);
 
   //3. Ocorrências por cidade
   const auditoriasPorCidade = {};
-
-  ocorrencias.forEach(ocorrencia => {
-    const cidade = ocorrencia.local;
-    if (cidade) {
-      auditoriasPorCidade[cidade] = (auditoriasPorCidade[cidade] || 0) + 1;
+  ocorrencias2.forEach(ocorrencia => {
+    const distrito = ocorrencia.cidade;
+    console.log(distrito);
+    if (distrito) {
+      auditoriasPorCidade[distrito] = (auditoriasPorCidade[distrito] || 0) + 1;
     }
   });
   localStorage.setItem("auditoriasPorCidade", JSON.stringify(auditoriasPorCidade));
 
   // 4. Auditorias aceites por cidade
-  const auditoriasAceitesPorCidade = {};
+const auditoriasAceitesPorCidade = {};
 
-  ocorrencias.forEach(ocorrencia => {
-    const cidade = ocorrencia.local;
-    const estado = (ocorrencia.estado || "");
-    if (estado === "Aceite") {
-      auditoriasAceitesPorCidade[cidade] = (auditoriasAceitesPorCidade[cidade] || 0) + 1;
-    }
-  });
-  localStorage.setItem("auditoriasAceitesPorCidade", JSON.stringify(auditoriasAceitesPorCidade));
+for (let i = 0; i < ocorrencias.length; i++) {
+  const estado = (ocorrencias[i].estado || "").toLowerCase();
+  const cidade = ocorrencias2[i]?.cidade;
+
+  if (estado === "aceite" && cidade) {
+    auditoriasAceitesPorCidade[cidade] = (auditoriasAceitesPorCidade[cidade] || 0) + 1;
+  }
+}
+
+localStorage.setItem("auditoriasAceitesPorCidade", JSON.stringify(auditoriasAceitesPorCidade));
 
     // 5. Número de peritos diferentes (únicos) atribuídos
     const nomesPeritos = new Set();
 
     ocorrencias.forEach(ocorrencia => {
       const perito = ocorrencia.perito;
-      if (perito && perito !== "Pendente") {
+      if (perito && perito !== "--" && perito !== "Pendente") {
         nomesPeritos.add(perito);
       }
     });
@@ -99,6 +104,9 @@ function renderTabela() {
 
 // Carregar peritos ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
+  // Inicialização
+  renderTabela();
+
   const peritos = JSON.parse(localStorage.getItem('peritos')) || [];
   const selectPerito = document.getElementById('atribuirPerito');
 
@@ -167,8 +175,6 @@ document.getElementById("formReverOcorrencia").addEventListener("submit", functi
   const offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
   offcanvasInstance.hide();
 });
-// Inicialização
-renderTabela();
 
 function logoutGoogle() {
     localStorage.removeItem('googleUser');

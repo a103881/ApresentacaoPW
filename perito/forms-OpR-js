@@ -89,7 +89,8 @@ window.addEventListener("DOMContentLoaded", () => {
           }
 
           // Remove a ocorrência da lista ativa (podes também só mudar o estado para "Concluída" se preferires)
-          delete dadosTabela[id];
+          ocorrenciaAtiva.estado = "Concluido";
+          dadosTabela[id] = ocorrenciaAtiva;
 
           // Atualiza o localStorage da lista ativa
           localStorage.setItem("dadosTabelaOcorrencias", JSON.stringify(dadosTabela));

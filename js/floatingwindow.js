@@ -108,7 +108,7 @@ function mostrarOcorrencias(filtro) {
 
       switch (filtro) {
         case 'aberto':
-          return ocorrencia.googleUserId === userId && estado === 'Por analisar';
+          return ocorrencia.googleUserId === userId && (estado === 'Por analisar' || estado === 'Aceite');
         case 'analise':
           return ocorrencia.googleUserId === userId && estado === 'Por concluir';
         case 'concluido':
